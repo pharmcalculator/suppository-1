@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Suppository Calculation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .table-container {
+      margin: 0 20px;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 600px;  
+      font-size: 24px;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    input[type="number"] {
+      width: 100px;
+      font-size: 24px;
+     
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 28px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .result-table {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .result-table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .result-table td {
+      padding: 20px;
+    }
+
+    p {
+      font-size: 24px;
+    }
+  </style>
+
+  <script>
+    function calculateSuppository() {
+      // Get the input values from the form
+      var drugDensity = parseFloat(document.getElementById("drugDensity").value);
+      var baseDensity = parseFloat(document.getElementById("baseDensity").value);
+      var suppositoryNumber = parseInt(document.getElementById("suppositoryNumber").value);
+      var drugAmount = parseFloat(document.getElementById("drugAmount").value);
+      var drugUnit = document.getElementById("drugUnit").value;
+      var baseAmount = parseFloat(document.getElementById("baseAmount").value);
+      
+      // Convert drug amount to grams if it is in milligrams
+      if (drugUnit === "mg") {
+        drugAmount /= 1000; // Convert milligrams to grams
+      }
+      
+      // Perform the calculations
+      var densityRatio = drugDensity / baseDensity;
+      var totalAmountDrug = drugAmount * suppositoryNumber;
+      var totalAmountBase = baseAmount * suppositoryNumber;
+      var replacementAmount = totalAmountDrug / densityRatio;
+      var totalBaseRequired = totalAmountBase - replacementAmount;
+      
+      // Display the results
+      document.getElementById("densityRatioResult").innerHTML = "The density ratio is: " + densityRatio.toFixed(2);
+      document.getElementById("totalAmountDrugResult").innerHTML = "The total weight of drug is: " + totalAmountDrug.toFixed(2) + " g";
+      document.getElementById("totalAmountBaseResult").innerHTML = "The total estimated weight of base is: " + totalAmountBase.toFixed(2) + " g";
+      document.getElementById("replacementAmountResult").innerHTML = "The replacement weight is: " + replacementAmount.toFixed(2) + " g";
+      document.getElementById("totalBaseRequiredResult").innerHTML = "The total base required is: " + totalBaseRequired.toFixed(2) + " g";
+    }
+  </script>
+</head>
+<body>
+  <h1>Suppository Calculation using density ratio</h1>
+  <form>
+    <label for="drugDensity">Density of the Drug (g/mL):</label>
+    <input type="number" id="drugDensity" step="0.01" required><br><br>
+    
+    <label for="baseDensity">Density of the Base (g/mL):</label>
+    <input type="number" id="baseDensity" step="0.01" required><br><br>
+    
+    <label for="suppositoryNumber">Number of Suppositories:</label>
+    <input type="number" id="suppositoryNumber" required><br><br>
+    
+    <label for="drugAmount">Drug Amount in Each Suppository:</label>
+    <input type="number" id="drugAmount" step="0.01" required>
+    
+    <select id="drugUnit">
+      <option value="g">grams</option>
+      <option value="mg">milligrams</option>
+    </select><br><br>
+    
+    <label for="baseAmount">Weight of each Suppository made of pure base:</label>
+    <input type="number" id="baseAmount" step="0.01" required><br><br>
+    
+    <button type="button" onclick="calculateSuppository()">Calculate</button>
+  </form>
+  
+  <p id="densityRatioResult"></p>
+  <p id="totalAmountDrugResult"></p>
+  <p id="totalAmountBaseResult"></p>
+  <p id="replacementAmountResult"></p>
+  <p id="totalBaseRequiredResult"></p>
+</body>
+</html>
